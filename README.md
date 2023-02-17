@@ -246,7 +246,9 @@ lodash教程，请查看<https://www.lodashjs.com/>
 
 ## 5.关于git提交pr的问题
 使用教程,请查看:<https://www.liaoxuefeng.com/wiki/896043488029600>
+
 说明：“符号”+“提交内容”
+
 示例：“+添加检查表”
 
 ### 1.“+”表示新增或添加；
