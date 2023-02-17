@@ -260,6 +260,20 @@ lodash教程，请查看<https://www.lodashjs.com/>
     git config --global user.email "cuixiujingyun@163.com"
     git config --global user.name "cuixiujingyun@163.com"
 ```
+### 4.创建并切换分支(建议使用分支，-c表示创建，切换分支时不带-c)
+```shell
+    git switch -c dev
+```
+### 5.将文件添加至缓存区（*表示所有文件）
+```shell
+    git add README.md
+    git add *
+```
+### 6.添加文件信息
+```shell
+    git commit -m '文件信息'
+```
+
 
 说明：“符号”+“提交内容”
 
