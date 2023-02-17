@@ -11,7 +11,7 @@
         setData:()=>{}  //这里是方法
         })
         
-    function get_check(){}   //这里是函数
+    function get_check(){}   //这里是函数,也推荐使用小驼峰
 ```
 当然了，一些通俗变量使用小驼峰，如：
 ```typescript
@@ -63,7 +63,7 @@
 
 ```
 
-### 4.vite
+### 4.vite @2.9.0
 ```shell
     /**
     *我司项目皆由vite构建,模板为vue-ts,请注意node版本
@@ -72,8 +72,59 @@
 ```
 vite祥见：<https://cn.vitejs.dev/guide/>
 
-### 5.pinia
+### 5.pinia @2.0.13
 可以理解为Vuex，祥见：<https://pinia.web3doc.top/introduction.html>
+```shell
+    yarn add pinia@2.0.13
+```
+
+### 6.demo的编写
+当我们前端页面业务逻辑已经完成，需要调用接口测试时，或许后端只是把接口文档准备好了，调用接口后并不会返回真实数据，或者调用接口后数据并不理想，此时需要我们根据接口文档自己准备测试数据。
+比如接口文档如下：!['接口文档demo'](https://f.tansuyun.cn/api/yan/2023-02-17/demoAPI.png)
+我们应该现在项目中创建一个api文件夹，并且文件夹中含有一个放置demo的文件，比如User.ts
+```typescript
+    export class User{
+        UID:number
+        Name:string
+        Sex:number
+        Avatar:string
+    }
+    export const UserList:User[]=[
+        {
+            UID:0,
+            Name:'古力娜扎'，
+            Sex:0,
+            Avatar:'https://npm.tansuyun.cn/@yakj/y407@0.0.21/dist/img/hoverbtn.02c89e24.svg'
+        },
+         {
+            UID:1,
+            Name:'迪丽热巴'，
+            Sex:0,
+            Avatar:'https://npm.tansuyun.cn/@yakj/y407@0.0.21/dist/img/hoverbtn.02c89e24.svg'
+        }，
+         {
+            UID:100,
+            Name:'刘德华'，
+            Sex:1,
+            Avatar:'https://npm.tansuyun.cn/@yakj/y407@0.0.21/dist/img/hoverbtn.02c89e24.svg'
+        }，
+         {
+            UID:101,
+            Name:'张学友'，
+            Sex:1,
+            Avatar:'https://npm.tansuyun.cn/@yakj/y407@0.0.21/dist/img/hoverbtn.02c89e24.svg'
+        }，
+    ]
+```
+而后在要使用到demo的页面应用并使用，如User.vue
+```typescript
+    import UserList from '../api/User'
+    const Users=ref([])
+    onMounted(()=>{
+        Users.value=UserList
+    })
+   
+```
 
 ## 4.关于组件、第三方包、库
 
@@ -145,7 +196,7 @@ Demo.vue
 ```typescript
     /**
      * 常用日期处理方法format_date,DateFMT
-     * 常用数组格式处理方法array_key_set
+     * 常用数组格式处理方法array_key_set => 将数组对象转换成字典
      * 常用延时方法delay_cb
      */
     import { format_date,DateFMT,array_key_set,delay_cb } from '@ctsy/common'
@@ -153,15 +204,15 @@ Demo.vue
     let Now=format_date(new Date(),DateFMT.YMD) 
     
     onMounted(async()=>{
-        let rs=await getData()
-        let lists=array_key_set(rs.L,'DID')
+        let rs=await getData() //rs=[{DID:0,UID:100},{DID:1,UID:10},{DID:2,UID:1}]
+        let lists=array_key_set(rs.L,'DID') //list={0:{DID:0,UID:100},1:{DID:1,UID:10},{DID:2,UID:1}}
     })
 ```
 **前端库还有@ctsy/hook、@ctsy/sdk，@ctsy更多详情内容，请查看:<https://www.npmjs.com/search?q=%40ctsy>**
 
 ### 3.其他库
 
-#### 1.移动端使用vantUI风格
+#### 1.移动端使用vantUI风格 @3.4.3
 调用接口时，配合vant库的Toast使用，如：
 ```typescript
     import {Toast} from 'vant'
@@ -179,7 +230,7 @@ Demo.vue
 ```
 vant教程，请查看<https://vant-contrib.gitee.io/vant/#/zh-CN/home>
 
-#### 2.PC端使用elementUI风格
+#### 2.PC端使用elementUI风格 
 element教程，请查看<https://element-plus.gitee.io/zh-CN/guide/design.html>
 
 #### 3.lodash
@@ -192,15 +243,23 @@ element教程，请查看<https://element-plus.gitee.io/zh-CN/guide/design.html>
 ```
 lodash教程，请查看<https://www.lodashjs.com/>
 
-#### 4.pinia
-pinia教程，请查看<https://pinia.web3doc.top/getting-started.html#%E5%AE%89%E8%A3%85>
 
 ## 5.关于git提交pr的问题
+使用教程,请查看:<https://www.liaoxuefeng.com/wiki/896043488029600>
 说明：“符号”+“提交内容”
 示例：“+添加检查表”
 
 ### 1.“+”表示新增或添加；
 ### 2.“-”表示删除；
-### 3.“#”表示修复或更改；
+### 3.“#”表示修复或更改； 
 ### 4.“^”表示优化或升级；
 ### 5.“=”表示格式化或无功能变化。
+
+## 6.关于icon
+除了使用vantUI、element-ui自带的icon，建议使用阿里巴巴iconfont，祥见：<https://www.iconfont.cn/home/index?spm=a313x.7781069.1998910419.3>；
+
+### 1.登录并创建项目；
+### 2.查找需要的图标并添加入库；
+### 3.将库中图标添加至项目；
+### 4.使用Font-Class，并生成代码；
+### 5.复制链接，引入html中
