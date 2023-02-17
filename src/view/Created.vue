@@ -178,9 +178,7 @@
   <Sign v-model="ShowSign" @success="success" :Name="store.Nick"></Sign>
 </template>
 <script setup lang="ts">
-import { computed, defineComponent, ref, reactive, onMounted, watch } from 'vue'
-import { SearchResult } from '@ctsy/api-sdk'
-import { SearchWhere } from '@ctsy/api-sdk/dist/lib'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   EntityGetCheckRes,
@@ -188,9 +186,9 @@ import {
   RootApi,
   EntitySubmitCheckReq,
   EntitySubmitCheckLog,
-} from '../api/check'
+} from '../api/Check'
 import UploadApi from '@ctsy/api-sdk/dist/modules/Upload'
-import { showFailToast, showImagePreview, Toast, ImagePreview } from 'vant'
+import { Toast, ImagePreview } from 'vant'
 import Sign from '../component/Sign.vue'
 import { useStore } from '../store'
 const URL = 'https://f.tansuyun.cn/api/yan/'
