@@ -277,7 +277,7 @@ lodash教程，请查看<https://www.lodashjs.com/>
 ```shell
     git merge demo
 ```
-### 8.从远程仓库拉取代码
+### 8.从远程仓库拉取代码(后面加“origin 分支名”可以拉取指定分支的代码)
 ```shell
     git pull
 ```
