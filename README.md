@@ -81,7 +81,7 @@ vite祥见：<https://cn.vitejs.dev/guide/>
 ### 6.demo的编写
 当我们前端页面业务逻辑已经完成，需要调用接口测试时，或许后端只是把接口文档准备好了，调用接口后并不会返回真实数据，或者调用接口后数据并不理想，此时需要我们根据接口文档自己准备测试数据。
 比如接口文档如下：!['接口文档demo'](https://f.tansuyun.cn/api/yan/2023-02-17/demoAPI.png)
-我们应该现在项目中创建一个api文件夹，并且文件夹中含有一个放置demo的文件，比如User.ts
+我们应该先在项目中创建一个api文件夹，并且文件夹中含有一个放置demo的文件，比如User.ts
 ```typescript
     export class User{
         UID:number
