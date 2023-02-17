@@ -116,7 +116,7 @@ vite祥见：<https://cn.vitejs.dev/guide/>
         }，
     ]
 ```
-而后在要使用到demo的页面应用并使用，如User.vue
+而后在要使用到demo的页面引入并使用，如User.vue
 ```typescript
     import UserList from '../api/User'
     const Users=ref([])
