@@ -244,8 +244,22 @@ element教程，请查看<https://element-plus.gitee.io/zh-CN/guide/design.html>
 lodash教程，请查看<https://www.lodashjs.com/>
 
 
-## 5.关于git提交pr的问题
+## 5.关于git
 使用教程,请查看:<https://www.liaoxuefeng.com/wiki/896043488029600>
+
+### 1.将项目从远程仓库克隆到本地仓库
+```shell
+    git clone https://github.com/SkyCui2022/-2023-.git
+```
+### 2.将本地仓库绑定到远程仓库
+```shell
+    git remote add origin https://github.com/SkyCui2022/-2023-.git
+```
+### 3.全局绑定用户
+```shell
+    git config --global user.email "cuixiujingyun@163.com"
+    git config --global user.name "cuixiujingyun@163.com"
+```
 
 说明：“符号”+“提交内容”
 
