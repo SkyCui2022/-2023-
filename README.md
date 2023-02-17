@@ -273,7 +273,18 @@ lodash教程，请查看<https://www.lodashjs.com/>
 ```shell
     git commit -m '文件信息'
 ```
-
+### 7.合并分支代码（此操作通常由主分支master上进行）
+```shell
+    git merge demo
+```
+### 8.从远程仓库拉取代码
+```shell
+    git pull
+```
+### 9.推送代码到远程仓库
+```shell
+    git push
+```
 
 说明：“符号”+“提交内容”
 
