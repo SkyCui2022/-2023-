@@ -1,0 +1,15 @@
+stages:
+  - online
+
+# #正式环境
+online:
+  stage: online
+
+  script:
+    - yarn && yarn build
+    - npm publish
+    - node scp.js | bash
+  only:
+    - online
+  tags:
+    - gitlab
