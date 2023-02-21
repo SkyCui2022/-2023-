@@ -73,9 +73,30 @@
 vite祥见：<https://cn.vitejs.dev/guide/>
 
 ### 5.pinia @2.0.13
+
 可以理解为Vuex，祥见：<https://pinia.web3doc.top/introduction.html>
 ```shell
     yarn add pinia@2.0.13
+```
+#### 因公司库@yakj/sdk/sdk/store中使用了pinia，在调用该库中的方法时，pinia可能并未挂载，因此需要将@yakj/sdk/sdk/store二次封装:
+1.初始化pinia:pinia.ts
+```typescript
+    import {createPinia} from 'pinia';
+    const Pinia =createPinia()
+    export default pinia
+```
+2.封装@yakj/sdk/sdk/store:yan.ts
+```typescript
+    import sdk from '@yakj/sdk/sdk/store'
+    import pinia from './pinia'
+    export default fuction get_yan_store(){
+        return sdk(pinia)
+    }
+```
+3.在入口文件中挂载pinia:mian.ts
+```typescript
+    import pinia from './store/pinia'
+    const app=createApp(App).use(pinia)
 ```
 
 ### 6.demo的编写
