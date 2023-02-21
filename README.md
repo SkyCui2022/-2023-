@@ -98,6 +98,7 @@ vite祥见：<https://cn.vitejs.dev/guide/>
     import pinia from './store/pinia'
     const app=createApp(App).use(pinia)
 ```
+#### 由上可见，我们并未按照通俗做法，在入口文件(main.ts)中直接从导入pinia（即 import {createPinia} from 'pinia'）并挂载。
 
 ### 6.demo的编写
 当我们前端页面业务逻辑已经完成，需要调用接口测试时，或许后端只是把接口文档准备好了，调用接口后并不会返回真实数据，或者调用接口后数据并不理想，此时需要我们根据接口文档自己准备测试数据。
