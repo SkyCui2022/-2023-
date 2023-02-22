@@ -71,6 +71,8 @@
     yarn create vite 项目名称 --template vue-ts
 ```
 vite祥见：<https://cn.vitejs.dev/guide/>
+#### 有时，我们更新了第三方库，重载了IDE窗口，重新启动vue服务，但是页面也没有报错，就是无法达到预期效果。
+#### 这时请你注意看一下node_modules下面是否含有.vite文件夹，如果有请先删除它，再重复前面的操作。
 
 ### 5.pinia @2.0.13
 
