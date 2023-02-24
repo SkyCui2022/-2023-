@@ -252,7 +252,8 @@ Demo.vue
         }
     }
 ```
-vant教程，请查看<https://vant-contrib.gitee.io/vant/#/zh-CN/home>
+vant3版本，请查看<https://vant-contrib.gitee.io/vant/v3/#/zh-CN/home>
+vant4版本，请查看<https://vant-contrib.gitee.io/vant/#/zh-CN/home>
 
 #### 2.PC端使用elementUI风格 
 element教程，请查看<https://element-plus.gitee.io/zh-CN/guide/design.html>
