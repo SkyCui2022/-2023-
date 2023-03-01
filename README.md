@@ -152,8 +152,9 @@ vite祥见：<https://cn.vitejs.dev/guide/>
 ### 7.推荐使用组合式Api(composition Api)以及组合式函数(Composables)
 为了可维护性、可阅读性，需要整个团队统一编码风格(Ⅰ.option Api,Ⅱ.compositon Api,Ⅲ.compositon Api + Composables)；
 #### option Api 参考:<https://git.tansuyun.com/yakj/yan/answermodule> 
-#### composition Api 参考:<https://git.tansuyun.com/yakj/yan/check> master主分支 ！推荐
-#### composition Api+Composables 参考:<https://git.tansuyun.com/yakj/yan/check> test主分支 ！推荐 
+#### composition Api 参考:<https://git.tansuyun.com/yakj/yan/check> master主分支
+#### composition Api+Composables 参考:<https://git.tansuyun.com/yakj/yan/check> test主分支
+
 组合式函数需要已掌握组合式Api;
 组合式Api、组合式函数祥见:<https://cn.vuejs.org/guide/reusability/composables.html>
 了解掌握组合式函数:<https://juejin.cn/post/7083401842733875208>
@@ -163,7 +164,6 @@ vite祥见：<https://cn.vitejs.dev/guide/>
 ### 1.签名组件:基于第三方库vue-signatrue-pad封装的Sign组件
 ```typescript
     /**
-     * 
      * 在需要签字的页面，放入Sign组件。
      * 1.v-model绑定一个boolean，控制组件的显示和隐藏；
      * 2.传入一个Name属性，显示当前调用组件的人名；
@@ -338,3 +338,5 @@ lodash教程，请查看<https://www.lodashjs.com/>
 ### 3.将库中图标添加至项目；
 ### 4.使用Font-Class，并生成代码；
 ### 5.复制链接，引入html中
+
+# 此项目名实际为检查表模块(check)，因一时疏忽，命名时将英文名写成chick。
