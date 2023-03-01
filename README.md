@@ -338,5 +338,3 @@ lodash教程，请查看<https://www.lodashjs.com/>
 ### 3.将库中图标添加至项目；
 ### 4.使用Font-Class，并生成代码；
 ### 5.复制链接，引入html中
-
-# 此项目名实际为检查表模块(check)，因一时疏忽，命名时将英文名写成chick。
