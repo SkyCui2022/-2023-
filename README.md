@@ -156,7 +156,9 @@ vite祥见：<https://cn.vitejs.dev/guide/>
 #### composition Api+Composables 参考:<https://git.tansuyun.com/yakj/yan/check> test主分支
 
 组合式函数需要已掌握组合式Api;
-组合式Api、组合式函数祥见:<https://cn.vuejs.org/guide/reusability/composables.html>
+
+组合式Api、组合式函数祥见:<https://cn.vuejs.org/guide/reusability/composables.html>；
+
 了解掌握组合式函数:<https://juejin.cn/post/7083401842733875208>
 
 ## 4.关于组件、第三方包、库
