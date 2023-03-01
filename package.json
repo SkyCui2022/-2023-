@@ -3,38 +3,32 @@
   "version": "0.0.0",
   "license": "MPL",
   "main": "dist/index.html",
-  "files": [
-    "dist/*"
-  ],
+  "files": ["dist/*"],
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build && node ver.js",
-    "preview": "vite preview",
-    "test": "vitest"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@ctsy/api-sdk": "^2.0.392",
     "@ctsy/sdk": "^0.0.10",
-    "@yakj/sdk": "^2.0.7",
+    "@yakj/sdk": "^3.0.8",
     "element-plus": "^2.2.8",
     "less": "^4.1.2",
-    "pinia": "^2.0.30",
+    "pinia": "^2.0.13",
     "pinia-plugin-persist": "^1.0.0",
     "rollup-plugin-visualizer": "^5.6.0",
-    "vant": "^4.0.9",
+    "vant": "3.4.3",
     "vite-plugin-externals": "^0.5.1",
-    "vue": "3.2.31",
+    "vue": "^3.2.31",
     "vue-router": "^4.0.13",
     "vue-signature-pad": "^3.0.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.181",
     "@vitejs/plugin-vue": "^2.3.0",
-    "@vue/test-utils": "^2.2.10",
-    "happy-dom": "^8.2.6",
     "typescript": "^4.5.4",
     "vite": "^2.9.0",
-    "vitest": "0.23.4",
     "vue-loader": "^17.0.1",
     "vue-tsc": "^0.29.8"
   }
