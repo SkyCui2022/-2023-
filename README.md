@@ -100,7 +100,7 @@ vite祥见：<https://cn.vitejs.dev/guide/>
     import pinia from './store/pinia'
     const app=createApp(App).use(pinia)
 ```
-#### 由上可见，我们并未按照通俗做法，在入口文件(main.ts)中直接从导入pinia（即 import {createPinia} from 'pinia'）并挂载。
+#### 由上可见，我们并未按照通俗做法，在入口文件(main.ts)中直接导入pinia（即 import {createPinia} from 'pinia'）并挂载。
 
 ### 6.demo的编写
 当我们前端页面业务逻辑已经完成，需要调用接口测试时，或许后端只是把接口文档准备好了，调用接口后并不会返回真实数据，或者调用接口后数据并不理想，此时需要我们根据接口文档自己准备测试数据。
@@ -149,6 +149,11 @@ vite祥见：<https://cn.vitejs.dev/guide/>
     })
    
 ```
+### 7.推荐使用组合式Api(composition Api)以及组合式函数(Composables)
+为了可维护性、可阅读性，需要整个团队统一编码风格(Ⅰ.option Api,Ⅱ.compositon Api,Ⅲ.compositon Api + Composables)；
+组合式函数需要已掌握组合式Api;
+组合式Api、组合式函数祥见:<https://cn.vuejs.org/guide/reusability/composables.html>
+了解掌握组合式函数:<https://juejin.cn/post/7083401842733875208>
 
 ## 4.关于组件、第三方包、库
 
@@ -329,3 +334,5 @@ lodash教程，请查看<https://www.lodashjs.com/>
 ### 3.将库中图标添加至项目；
 ### 4.使用Font-Class，并生成代码；
 ### 5.复制链接，引入html中
+
+# 此项目名实际为检查表模块(check)，因一时疏忽，命名时将英文名写成chick。
