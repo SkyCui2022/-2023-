@@ -1,5 +1,5 @@
-import { Dialog, showToast, Toast } from 'vant'
-import User from '@ctsy/api-sdk/dist/modules/User'
+import { Dialog, Toast } from 'vant'
+// import User from '@ctsy/api-sdk/dist/modules/User'
 import { store } from '@ctsy/api-sdk/dist/lib'
 const CachedUser: { [index: string]: any } = store.get('CachedUser', {})
 
@@ -30,39 +30,39 @@ export enum AuthEnum {
  * @returns
  */
 export async function patch_user (d: any[], field: string = 'CUID') {
-  let UIDs = []
-  for (let x of d) {
-    if (x[field] > 0) {
-      UIDs.push(x[field])
-    }
-  }
-  if (UIDs.length > 0) {
-    let eUIDs = []
-    for (let x of UIDs) {
-      if (!CachedUser[x]) {
-        eUIDs.push(x)
-      }
-    }
-    if (eUIDs.length > 0) {
-      let wUser = await User.UsersApi.search({
-        W: { UID: eUIDs },
-        _fields: 'UID,Nick,Avatar,Sex',
-        P: 1,
-        N: eUIDs.length
-      })
-      for (let x of wUser.L) {
-        CachedUser[x.UID] = x
-      }
-      store.set('CachedUser', CachedUser)
-    }
-    for (let x of d) {
-      let u = CachedUser[x[field]] || { Avatar: '', Nick: '', Sex: 0 }
-      x.UNick = u.Nick
-      x.UAvatar = u.Avatar
-      x.$User = u
-    }
-  }
-  return d
+  // let UIDs = []
+  // for (let x of d) {
+  //   if (x[field] > 0) {
+  //     UIDs.push(x[field])
+  //   }
+  // }
+  // if (UIDs.length > 0) {
+  //   let eUIDs = []
+  //   for (let x of UIDs) {
+  //     if (!CachedUser[x]) {
+  //       eUIDs.push(x)
+  //     }
+  //   }
+  //   if (eUIDs.length > 0) {
+  //     let wUser = await User.UsersApi.search({
+  //       W: { UID: eUIDs },
+  //       _fields: 'UID,Nick,Avatar,Sex',
+  //       P: 1,
+  //       N: eUIDs.length
+  //     })
+  //     for (let x of wUser.L) {
+  //       CachedUser[x.UID] = x
+  //     }
+  //     store.set('CachedUser', CachedUser)
+  //   }
+  //   for (let x of d) {
+  //     let u = CachedUser[x[field]] || { Avatar: '', Nick: '', Sex: 0 }
+  //     x.UNick = u.Nick
+  //     x.UAvatar = u.Avatar
+  //     x.$User = u
+  //   }
+  // }
+  // return d
 }
 /**
  * 权限对象
@@ -148,7 +148,7 @@ export async function showQr (html: string, url: string = '') {
     url = url || location.href
   }
   console.log('url', url)
-  showToast({
+  Toast({
     duration: 0,
     overlay: true,
     forbidClick: false,

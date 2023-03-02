@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import useRadio from './RadioGroup'
 import UploadApi from '@ctsy/api-sdk/dist/modules/Upload'
-import { wait } from '../api/lib'
+import { wait } from '../../../api/lib'
 
 export default function useImage () {
   const { SubmitCheck } = useRadio()

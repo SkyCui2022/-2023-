@@ -1,6 +1,6 @@
 import { ref, provide } from 'vue'
-import { EntitySubmitCheckReq } from '../api/check'
-import { URL } from '../api/check'
+import { EntitySubmitCheckReq } from '../../../api/check'
+import { URL } from '../../../api/check'
 
 export default function useRadio () {
   const AllRight = ref('')

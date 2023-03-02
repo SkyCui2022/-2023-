@@ -12,13 +12,7 @@
         <van-row class="padding10">检 查 人：{{ Result.Name }}</van-row>
       </van-col>
       <van-col span="6">
-        <van-button
-          color="#64A4FE"
-          @click="down"
-          class="font13"
-          round
-          size="small"
-        >
+        <van-button color="#64A4FE" @click="down" class="font13" round size="small">
           <van-icon name="down" size="14" />
           下载
         </van-button>
@@ -26,7 +20,7 @@
     </van-row>
   </van-row>
   <van-row>
-    <van-row class="block padding15" v-if:show=" Result.Unfix">有隐患{{ Result.Unfix }}</van-row>
+    <van-row class="block padding15" v-if:show="Result.Unfix">有隐患{{ Result.Unfix }}</van-row>
     <Detail :ModelValue="List" @toRectify="toRectify"></Detail>
   </van-row>
   <van-row class="box_gray margin15 font12">
@@ -39,12 +33,7 @@
       </van-row>
       <van-row class="block">
         <van-col span="24">
-          <van-image
-            :width="Width"
-            :height="Height"
-            class="rotate"
-            :src="v.Sign"
-          ></van-image>
+          <van-image :width="Width" :height="Height" class="rotate" :src="v.Sign"></van-image>
         </van-col>
       </van-row>
     </template>
@@ -59,12 +48,12 @@
 </template>
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import { CheckApi, EntitySigleCheckDetailRes, URL } from '../api/check'
-import Detail from '../component/Detail.vue'
+import { CheckApi, EntitySigleCheckDetailRes, URL } from '../../api/check'
+import Detail from './component/Detail.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { showQr, wait } from '../api/lib'
+import { showQr, wait } from '../../api/lib'
 import { format_date } from '@ctsy/common'
-import get_yan_stroe from '../store/yan'
+import get_yan_stroe from '../../store/yan'
 
 const yStore = get_yan_stroe()
 const router = useRouter()
@@ -117,6 +106,7 @@ onMounted(async () => {
   width: 100vw;
   height: 120px;
   background-color: #1f7aff;
+
   .title {
     .fff();
     .block();
@@ -128,41 +118,53 @@ onMounted(async () => {
 .fff {
   color: #fff;
 }
+
 .block {
   width: 100%;
 }
+
 .red {
   color: red;
 }
+
 .font12 {
   font-size: 12px;
 }
+
 .font14 {
   font-size: 13px;
 }
+
 .padding10 {
   padding: 10px;
 }
+
 .padding15 {
   padding: 15px;
 }
+
 .padding_10_15 {
   padding: 10px 15px;
 }
+
 .paddingbottom10 {
   padding-bottom: 10px;
 }
+
 .marginbottom10 {
   margin-bottom: 10px;
 }
+
 .width100vw {
   width: 100vw;
 }
+
 .submit {
   width: 100vw;
   position: fixed;
   text-align: center;
   bottom: 0;
+
   /deep/.van-button__text {
     display: flex;
     align-items: center;
@@ -171,52 +173,66 @@ onMounted(async () => {
     color: v-bind(SignTextColor);
   }
 }
+
 .block {
   width: 100%;
 }
+
 .bottom_line {
   border-bottom: 1px solid #e8e8e8;
 }
+
 .radius4 {
   border-radius: 4px;
 }
+
 .box_red {
   border: 1px solid red;
 }
+
 /deep/.van-field__control:disabled {
   -webkit-text-fill-color: red;
 }
+
 .rectify {
   /deep/.van-button__text {
     color: #1b6ffe;
   }
 }
+
 .enpty {
   height: 45px;
 }
+
 .positionrelative {
   position: relative;
 }
+
 .box_gray {
   border: 1px solid #cccccc;
 }
+
 .margin15 {
   margin: 15px;
 }
+
 .margin10 {
   margin: 10px;
 }
+
 .padding_4_6 {
   padding: 4px 6px;
 }
+
 .backgroundgray {
   background-color: #eeeeee;
   border-radius: 12px;
 }
+
 .rotate {
   transform: rotate(-90deg);
 }
+
 * {
   box-sizing: border-box;
-}
-</style>
+}</style>

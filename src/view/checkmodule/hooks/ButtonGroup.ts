@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { Group } from '../api/check'
+import { Group } from '../../../api/check'
 
 export default function useGroup () {
   const ButtonGroups = ref(Group)

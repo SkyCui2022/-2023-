@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MPL",
   "main": "dist/index.html",
-  "files": ["dist/*"],
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build && node ver.js",

@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 // import { useRouter } from 'vue-router'   需要在setup()下使用
-import useRouter from '../router' //useRouter紧紧是变量名，可以不使用useRouter
-import { wait } from '../api/lib'
-import { CheckApi, EID, CheckID } from '../api/check'
-import { EntitySubmitCheckReq } from '../api/check'
+import useRouter from '../../../router' //这里的useRouter紧紧是变量名，可以不使用useRouter
+import { wait } from '../../../api/lib'
+import { CheckApi, EID, CheckID } from '../../../api/check'
+import { EntitySubmitCheckReq } from '../../../api/check'
 
 // const router = useRouter  在此赋值使用时机错误
 

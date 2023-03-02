@@ -118,19 +118,19 @@ import {
   EntitySubmitCheckLog,
   CheckID,
   EntityGetCheckRes,
-} from '../api/check'
+} from '../../api/check'
 import { Toast, ImagePreview } from 'vant'
-import Sign from '../component/Sign.vue'
+import Sign from './component/Sign.vue'
 import { store } from '@ctsy/common'
-import get_yan_store from '../store/yan'
-import ButtonGroup from '../component/ButtonGroup.vue'
-import { wait } from '../api/lib'
-import useRadio from '../hooks/RadioGroup'
-import useCheckLog from '../hooks/CheckLog'
-import useGroup from '../hooks/ButtonGroup'
-import useImage from '../hooks/Image'
-import useRectify from '../hooks/Rectify'
-import useSign from '../hooks/Sign'
+import get_yan_store from '../../store/yan'
+import ButtonGroup from './component/ButtonGroup.vue'
+import { wait } from '../../api/lib'
+import useRadio from './hooks/RadioGroup'
+import useCheckLog from './hooks/CheckLog'
+import useGroup from './hooks/ButtonGroup'
+import useImage from './hooks/Image'
+import useRectify from './hooks/Rectify'
+import useSign from './hooks/Sign'
 
 const yStore = get_yan_store()
 const router = useRouter()

@@ -1,5 +1,33 @@
 import { Request } from '@ctsy/sdk'
 
+export const URL = 'https://f.tansuyun.cn/api/yan/'
+export const Group = [
+  {
+    Image: {
+      Width: '37',
+      Height: '37',
+      URL: `${URL}2023-02-01/setdanger.svg`
+    },
+    Text: '整改隐患'
+  },
+  {
+    Image: {
+      Width: '37',
+      Height: '37',
+      URL: `${URL}2023-02-01/otherdanger.svg`
+    },
+    Text: '其他隐患'
+  },
+  {
+    Image: {
+      Width: '37',
+      Height: '37',
+      URL: `${URL}2023-02-01/checklog.svg`
+    },
+    Text: '检查统计'
+  }
+]
+export const EID = 951
 export class BaseApi extends Request {
   Host = 'http://192.168.31.5:8500'
 }
@@ -1091,3 +1119,5 @@ export class Check extends BaseApi {
   }
 }
 export const CheckApi = new Check()
+
+export const CheckID = 60
