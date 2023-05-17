@@ -13,11 +13,17 @@
     </van-row>
     <van-row class="box">
       <template v-if="Logs">
-        <van-row v-for="(v, k) in Logs" :key="k" class="block padding15 logheight" align="center" justify="space-between">
+        <van-row
+          v-for="(v, k) in Logs"
+          :key="k"
+          class="block padding15 logheight"
+          align="center"
+          justify="space-between"
+        >
           <van-col>
             <van-row class="margin5">
-              {{ k == 0 ? '上次检查' : '检查人' }}：{{
-                yStore.UserMap[v.CUID].Name || '暂无数据'
+              {{ k == 0 ? "上次检查" : "检查人" }}：{{
+                yStore.UserMap[v.CUID].Name || "暂无数据"
               }}
             </van-row>
             <van-row gutter="20" class="margintop5">
@@ -31,7 +37,7 @@
             </van-row>
           </van-col>
           <van-col v-if="k == 0" @click="change_height(Logs)">
-            {{ Unfold ? '收起' : '更多' }}
+            {{ Unfold ? "收起" : "更多" }}
             <van-icon :name="Unfold ? 'arrow-up' : 'arrow-down'" />
           </van-col>
         </van-row>
@@ -45,43 +51,78 @@
         <van-radio name="0" @click="all_right">
           全部符合
           <template #icon="props">
-            <i :class="`iconfont icon-${props.checked
-              ? 'zhengqve font18 green'
-              : 'weixuanzhong font16 gray'
-              }`"></i>
+            <i
+              :class="`iconfont icon-${
+                props.checked
+                  ? 'zhengqve font18 green'
+                  : 'weixuanzhong font16 gray'
+              }`"
+            ></i>
           </template>
         </van-radio>
       </van-radio-group>
     </van-row>
     <van-row class="block">
-      <van-row class="block padding10_bottom" v-for="(v, k) in SubmitCheck.Items" :key="k">
+      <van-row
+        class="block padding10_bottom font13"
+        v-for="(v, k) in SubmitCheck.Items"
+        :key="k"
+      >
         <van-col class="left" span="20">
           {{ k + 1 }}.{{ mapItem[v.CIID] }}
         </van-col>
         <van-col span="4">
-          <i @click="radio(k, 0)" :class="`iconfont icon-${v.Result == 0 ? 'zhengqve green font18' : 'dui gray font18'
-            }`"></i>
+          <i
+            @click="radio(k, 0)"
+            :class="`iconfont icon-${
+              v.Result == 0 ? 'zhengqve green font18' : 'dui gray font18'
+            }`"
+          ></i>
           &nbsp;
-          <i @click="radio(k, 1)" :class="`iconfont icon-${v.Result == 1 ? 'cuowu red font18' : 'cuo gray font18'
-            }`"></i>
+          <i
+            @click="radio(k, 1)"
+            :class="`iconfont icon-${
+              v.Result == 1 ? 'cuowu red font18' : 'cuo gray font18'
+            }`"
+          ></i>
         </van-col>
         <van-row class="block" v-if="v.Result == 1">
           <van-form class="block">
             <van-cell-group>
-              <van-field type="textarea" rows="2" v-model="v.Memo" placeholder="请对不符合项进行描述"></van-field>
+              <van-field
+                type="textarea"
+                rows="2"
+                v-model="v.Memo"
+                placeholder="请对不符合项进行描述"
+              ></van-field>
             </van-cell-group>
           </van-form>
-          <van-row gutter="5" justify="space-between" align="center" class="block">
+          <van-row
+            gutter="5"
+            justify="space-between"
+            align="center"
+            class="block"
+          >
             <van-col class="flex_start">
               <template v-for="(d, i) in v.Imgs">
                 <van-col class="position">
-                  <van-image :src="d" width="43" height="43" fit="fill" @click="
-                    ImagePreview({
-                      images: v.Imgs,
-                      startPosition: i,
-                    })
-                  "></van-image>
-                  <van-row class="clear" @click="clear(v.Imgs, i)" v-if="!RectifyList.includes(v.CIID)">
+                  <van-image
+                    :src="d"
+                    width="43"
+                    height="43"
+                    fit="fill"
+                    @click="
+                      showImagePreview({
+                        images: v.Imgs,
+                        startPosition: i,
+                      })
+                    "
+                  ></van-image>
+                  <van-row
+                    class="clear"
+                    @click="clear(v.Imgs, i)"
+                    v-if="!RectifyList.includes(v.CIID)"
+                  >
                     <van-icon name="clear" />
                   </van-row>
                 </van-col>
@@ -91,7 +132,12 @@
               </van-col>
             </van-col>
             <van-col v-if="RectifyList.includes(v.CIID)">
-              <van-button color="#EFF4FC" size="small" class="rectify" @click="to_rectify">
+              <van-button
+                color="#EFF4FC"
+                size="small"
+                class="rectify"
+                @click="to_rectify"
+              >
                 去整改>
               </van-button>
             </van-col>
@@ -111,103 +157,103 @@
   <Sign v-model="ShowSign" @success="success" :Name="yStore.User.Name"></Sign>
 </template>
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import {
   RootApi,
   EntitySubmitCheckLog,
   CheckID,
   EntityGetCheckRes,
-} from '../../api/check'
-import { Toast, ImagePreview } from 'vant'
-import Sign from './component/Sign.vue'
-import { store } from '@ctsy/common'
-import get_yan_store from '../../store/yan'
-import ButtonGroup from './component/ButtonGroup.vue'
-import { wait } from '../../api/lib'
-import useRadio from './hooks/RadioGroup'
-import useCheckLog from './hooks/CheckLog'
-import useGroup from './hooks/ButtonGroup'
-import useImage from './hooks/Image'
-import useRectify from './hooks/Rectify'
-import useSign from './hooks/Sign'
+} from "../../api/check";
+import { Toast, showImagePreview } from "vant";
+import Sign from "../../component/Sign.vue";
+import { store } from "@ctsy/common";
+import get_yan_store from "../../store/yan";
+import ButtonGroup from "./component/ButtonGroup.vue";
+import { wait } from "../../api/lib";
+import useRadio from "./hooks/RadioGroup";
+import useCheckLog from "./hooks/CheckLog";
+import useGroup from "./hooks/ButtonGroup";
+import useImage from "./hooks/Image";
+import useRectify from "./hooks/Rectify";
+import useSign from "./hooks/Sign";
 
-const yStore = get_yan_store()
-const router = useRouter()
+const yStore = get_yan_store();
+const router = useRouter();
 const Logs = computed(() => {
-  return Result.value.Logs
-})
+  return Result.value.Logs;
+});
 //按钮组
-const { ButtonGroups, click, to_create_danger } = useGroup()
+const { ButtonGroups, click, to_create_danger } = useGroup();
 
 //检查记录逻辑
-const { Unfold, LogHeight, logHeight, change_height } = useCheckLog()
+const { Unfold, LogHeight, logHeight, change_height } = useCheckLog();
 
 //全选，单选逻辑
-const { AllRight, SignTextColor, SubmitCheck, all_right, radio } = useRadio()
+const { AllRight, SignTextColor, SubmitCheck, all_right, radio } = useRadio();
 
 // 有隐患的情况下，图片处理
-const { upload, clear } = useImage()
+const { upload, clear } = useImage();
 
 //去整改
-const { RectifyList, to_rectify } = useRectify()
+const { RectifyList, to_rectify } = useRectify();
 
 // 提交检查结果逻辑
 function submit() {
   if (SubmitCheck.value.Items.some((v) => v.Result == 999)) {
-    Toast.fail('请按要求检查完整')
+    Toast.fail("请按要求检查完整");
   } else if (
     SubmitCheck.value.Items.some((v) => v.Result == 1 && v.Imgs.length == 0)
   ) {
-    Toast.fail('不符合项必须添加图片')
+    Toast.fail("不符合项必须添加图片");
   } else if (
-    SubmitCheck.value.Items.some((v) => v.Result == 1 && v.Memo == '')
+    SubmitCheck.value.Items.some((v) => v.Result == 1 && v.Memo == "")
   ) {
-    Toast.fail('不符合项必须添加文本')
+    Toast.fail("不符合项必须添加文本");
   } else {
-    ShowSign.value = true
+    ShowSign.value = true;
   }
 }
 
 //签字及保存检查结果逻辑
-const { ShowSign, success } = useSign(SubmitCheck.value)
+const { ShowSign, success } = useSign(SubmitCheck.value);
 
-const Result = ref(new EntityGetCheckRes())
-let mapItem: { [index: string]: any } = {}
-const MarginTopList = ref('0px')
-const MarginTop = ref('0px')
+const Result = ref(new EntityGetCheckRes());
+let mapItem: { [index: string]: any } = {};
+const MarginTopList = ref("0px");
+const MarginTop = ref("0px");
 onMounted(async () => {
-  Result.value = await wait(RootApi.Check(CheckID), '数据加载中，请稍后')
-  Result.value.Logs.forEach((v) => yStore.getUserInfo(v.CUID))
-  store.set('CheckObj', Result.value)
-  SubmitCheck.value.CheckID = Result.value.CheckID
+  Result.value = await wait(RootApi.Check(CheckID), "数据加载中，请稍后");
+  Result.value.Logs.forEach((v) => yStore.getUserInfo(v.CUID));
+  store.set("CheckObj", Result.value);
+  SubmitCheck.value.CheckID = Result.value.CheckID;
   for (let i of Result.value.Items) {
-    let items = new EntitySubmitCheckLog()
-    items.CIID = i.CIID
-    items.Result = 999
-    SubmitCheck.value.Items.push(items)
-    mapItem[`${i.CIID}`] = i.Name
+    let items = new EntitySubmitCheckLog();
+    items.CIID = i.CIID;
+    items.Result = 999;
+    SubmitCheck.value.Items.push(items);
+    mapItem[`${i.CIID}`] = i.Name;
   }
   if (Result.value.Logs.length > 0) {
     for (let i of Result.value.Logs[0].Details) {
       SubmitCheck.value.Items.forEach((v, k) => {
         if (v.CIID == i.CIID && i.Result == 1) {
-          v.Imgs = i.Imgs
-          v.Memo = i.Memo
-          v.Result = i.Result
-          RectifyList.value.push(i.CIID)
+          v.Imgs = i.Imgs;
+          v.Memo = i.Memo;
+          v.Result = i.Result;
+          RectifyList.value.push(i.CIID);
         }
-      })
+      });
     }
   }
   setTimeout(() => {
     //@ts-ignore
-    logHeight.value = document.querySelector('.logheight')?.offsetHeight
-    LogHeight.value = `${logHeight.value}px`
-    MarginTop.value = `${logHeight.value / 3}px`
-    MarginTopList.value = `${logHeight.value / 3 + 10}px`
-  }, 200)
-})
+    logHeight.value = document.querySelector(".logheight")?.offsetHeight;
+    LogHeight.value = `${logHeight.value}px`;
+    MarginTop.value = `${logHeight.value / 3}px`;
+    MarginTopList.value = `${logHeight.value / 3 + 10}px`;
+  }, 200);
+});
 </script>
 <style scoped lang="less">
 .red {
@@ -356,5 +402,9 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+.font13 {
+  font-size: 13px;
 }
 </style>

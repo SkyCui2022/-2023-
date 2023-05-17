@@ -1,16 +1,16 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Wechat from '@ctsy/api-sdk/dist/modules/Wechat'
-import { useStore } from '../store'
-import { showQr } from '../api/lib'
-import User from '@ctsy/api-sdk/dist/modules/User'
-import { store as s } from '@ctsy/api-sdk/dist/lib'
-import { WechatID } from '../config'
 import AppRouter from './appRouter'
-import Created from '../view/checkmodule/Created.vue'
+import CheckCreated from '../view/checkmodule/Created.vue'
 import CheckDetail from '../view/checkmodule/CheckDetail.vue'
 import JoinTrain from '../view/trainmodule/Train.vue'
 import AnswerPaper from '../view/answermodule/Paper.vue'
 import AnswerDetail from '../view/answermodule/AnswerdDetail.vue'
+import RiskList from '../view/riskmodule/List.vue'
+import RiskPage from '../view/riskmodule/Page.vue'
+import RiskDangerDetail from '../view/riskmodule/DangerDetail.vue'
+import HiddenTrouble from '../view/troublemodule/HiddenTrouble.vue'
+import TroubleDetail from '../view/troublemodule/TroubleDetail.vue'
+import Text from '../view/text.vue'
 
 const router = createRouter({
   // 使用 hash 模式构建路由（ url中带 # 号的那种)
@@ -20,16 +20,22 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: AppRouter.Check.Create
+      redirect: '/Check'
+    },
+    {
+      path: '/text',
+      name: '测试',
+      component:Text
     },
     {
       path: '/Check',
       name: '检查表',
+      redirect: AppRouter.Check.Create,
       children: [
         {
           path: AppRouter.Check.Create,
           name: '添加安全检查表',
-          component: Created
+          component: CheckCreated
         },
         {
           path: AppRouter.Check.CheckDetail,
@@ -63,6 +69,44 @@ const router = createRouter({
           name: '答题详情',
           component: AnswerDetail
         }
+      ]
+    },
+    {
+      path: '/Risk',
+      name: '风险点',
+      children: [
+        {
+          path: AppRouter.Risk.List,
+          name: '列表',
+          component: RiskList
+        },
+        {
+          path: AppRouter.Risk.Page,
+          name: '衔接页面',
+          component: RiskPage
+        },
+        {
+          path: AppRouter.Risk.Detail,
+          name: '详情',
+          component: RiskDangerDetail
+        }
+      ]
+    },
+    {
+      path: '/Risk',
+      name: '隐患',
+      children: [
+        {
+          path: AppRouter.Trouble.HiddenTrouble,
+          name: '隐患台账',
+          component: HiddenTrouble
+        },
+        {
+          path: AppRouter.Trouble.Detail,
+          name: '隐患详情',
+          component: TroubleDetail
+        },
+       
       ]
     }
   ]

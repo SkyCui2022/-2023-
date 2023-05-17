@@ -200,3 +200,21 @@ export const TrainID = 31
 export const UID = 15459
 export const UnitID = 1
 export const PostID = 1
+export const Tabs = [
+  {
+    URL: 'https://f.tansuyun.cn/api/yan/2023-02-01/checklog.svg',
+    Text: '培训内容'
+  },
+  {
+    URL: 'https://f.tansuyun.cn/api/yan/2023-02-01/checklog.svg',
+    Text: '培训统计'
+  },
+  {
+    URL: 'https://f.tansuyun.cn/api/yan/2023-02-01/checklog.svg',
+    Text: '培训记录'
+  },
+  {
+    URL: 'https://f.tansuyun.cn/api/yan/2023-02-01/checklog.svg',
+    Text: '排行榜'
+  }
+]

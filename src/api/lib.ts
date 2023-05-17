@@ -1,6 +1,7 @@
-import { Dialog, Toast } from 'vant'
+import { Dialog, Toast,showToast } from 'vant'
 // import User from '@ctsy/api-sdk/dist/modules/User'
 import { store } from '@ctsy/api-sdk/dist/lib'
+import {reactive} from 'vue'
 const CachedUser: { [index: string]: any } = store.get('CachedUser', {})
 
 export enum AuthEnum {
@@ -148,7 +149,7 @@ export async function showQr (html: string, url: string = '') {
     url = url || location.href
   }
   console.log('url', url)
-  Toast({
+  showToast({
     duration: 0,
     overlay: true,
     forbidClick: false,
@@ -226,3 +227,6 @@ export class DangerDep {
 export function confirm (msg: string) {
   return
 }
+
+export const OrgMap = reactive<{ [index: number]: string }>({})
+

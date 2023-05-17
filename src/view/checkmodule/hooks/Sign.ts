@@ -4,6 +4,7 @@ import useRouter from '../../../router' //这里的useRouter紧紧是变量名�
 import { wait } from '../../../api/lib'
 import { CheckApi, EID, CheckID } from '../../../api/check'
 import { EntitySubmitCheckReq } from '../../../api/check'
+import AppRouter from '../../../router/appRouter'
 
 // const router = useRouter  在此赋值使用时机错误
 
@@ -15,7 +16,12 @@ export default function useSign (SubmitCheck: EntitySubmitCheckReq) {
   async function success (URL: string) {
     SubmitCheck.Sign = URL
     let rs = await wait(CheckApi.submit(SubmitCheck))
-    router.push(`/check/detail/${EID}/${CheckID}/${rs.CLID}`)
+    router.push(
+      AppRouter.Check.CheckDetail.replace(
+        AppRouter.Check.CheckDetail,
+        `Detail/${EID}/${CheckID}/${rs.CLID}`
+      )
+    )
   }
 
   return { ShowSign, success }
