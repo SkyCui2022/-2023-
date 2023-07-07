@@ -732,10 +732,10 @@ onMounted(async () => {
     });
   });
   Questions.value
-    ?.sort((a, b) => {
+    ?.sort((a: any, b: any) => {
       return a.Type - b.Type;
     })
-    .forEach((value, index) => {
+    .forEach((value: any, index: any) => {
       Total.value += value.Score;
       //正确答案题组
       let rights = value.Items.filter((v) => v.Right || v.Score);
