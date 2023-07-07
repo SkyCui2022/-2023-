@@ -357,15 +357,14 @@ import { useRouter, useRoute } from "vue-router";
 import { array_key_set, delay_cb, store } from "@ctsy/common";
 import Foot from "../component/Foot.vue";
 import PopUp from "../component/PopUp.vue";
-import { wait, word, timeFormat } from "../api/lib";
-import usePopup from "../hooks/popup";
-import useChange from "../hooks/cut";
+import { wait, word, timeFormat } from "../../api/lib";
+import usePopup from "./hooks/popup";
+import useChange from "./hooks/cut";
 import { format_date, DateFMT } from "@ctsy/common";
 import Sign from "../component/Sign.vue";
-import { useStore } from "../store";
+import { useStore } from "../../store";
 import Cell from "../component/Cell.vue";
-
-import useBaseData from "../hooks/BaseData";
+import useBaseData from "./hooks/BaseData";
 
 const { State, getEnter } = useBaseData();
 const yStore = useStore();

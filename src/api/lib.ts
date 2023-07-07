@@ -1,7 +1,14 @@
-import { Dialog, Toast,showToast } from 'vant'
-// import User from '@ctsy/api-sdk/dist/modules/User'
+import {
+  Dialog,
+  Toast,
+  showToast,
+  showLoadingToast,
+  showFailToast,
+  closeToast
+} from 'vant'
+import User from '@ctsy/api-sdk/dist/modules/User'
 import { store } from '@ctsy/api-sdk/dist/lib'
-import {reactive} from 'vue'
+import {format_date} from "@ctsy/common"
 const CachedUser: { [index: string]: any } = store.get('CachedUser', {})
 
 export enum AuthEnum {
@@ -31,39 +38,39 @@ export enum AuthEnum {
  * @returns
  */
 export async function patch_user (d: any[], field: string = 'CUID') {
-  // let UIDs = []
-  // for (let x of d) {
-  //   if (x[field] > 0) {
-  //     UIDs.push(x[field])
-  //   }
-  // }
-  // if (UIDs.length > 0) {
-  //   let eUIDs = []
-  //   for (let x of UIDs) {
-  //     if (!CachedUser[x]) {
-  //       eUIDs.push(x)
-  //     }
-  //   }
-  //   if (eUIDs.length > 0) {
-  //     let wUser = await User.UsersApi.search({
-  //       W: { UID: eUIDs },
-  //       _fields: 'UID,Nick,Avatar,Sex',
-  //       P: 1,
-  //       N: eUIDs.length
-  //     })
-  //     for (let x of wUser.L) {
-  //       CachedUser[x.UID] = x
-  //     }
-  //     store.set('CachedUser', CachedUser)
-  //   }
-  //   for (let x of d) {
-  //     let u = CachedUser[x[field]] || { Avatar: '', Nick: '', Sex: 0 }
-  //     x.UNick = u.Nick
-  //     x.UAvatar = u.Avatar
-  //     x.$User = u
-  //   }
-  // }
-  // return d
+  let UIDs = []
+  for (let x of d) {
+    if (x[field] > 0) {
+      UIDs.push(x[field])
+    }
+  }
+  if (UIDs.length > 0) {
+    let eUIDs = []
+    for (let x of UIDs) {
+      if (!CachedUser[x]) {
+        eUIDs.push(x)
+      }
+    }
+    if (eUIDs.length > 0) {
+      let wUser = await User.UsersApi.search({
+        W: { UID: eUIDs },
+        _fields: 'UID,Nick,Avatar,Sex',
+        P: 1,
+        N: eUIDs.length
+      })
+      for (let x of wUser.L) {
+        CachedUser[x.UID] = x
+      }
+      store.set('CachedUser', CachedUser)
+    }
+    for (let x of d) {
+      let u = CachedUser[x[field]] || { Avatar: '', Nick: '', Sex: 0 }
+      x.UNick = u.Nick
+      x.UAvatar = u.Avatar
+      x.$User = u
+    }
+  }
+  return d
 }
 /**
  * 权限对象
@@ -156,7 +163,7 @@ export async function showQr (html: string, url: string = '') {
     closeOnClick: true,
     type: 'html',
     className: 'qrtoast',
-    message: `<div><img class="qrimg" width='100' height='100' src="${'https://v1.api.tansuyun.cn/_data/Svg/qr?p=' +
+    message: `<div><img class="qrimg" src="${'https://v1.api.tansuyun.cn/_data/Svg/qr?p=' +
       encodeURIComponent(url)}"/></div><div>${html}</div>`
   })
 }
@@ -165,19 +172,20 @@ export async function wait (
   fn: Function | PromiseLike<any> | Promise<any> | any,
   msg: string = '加载中..'
 ) {
-  Toast.loading({ message: msg, forbidClick: true, duration: 0 })
-  let e = '',
+  showLoadingToast({ message: msg, forbidClick: true, duration: 0 })
+  let e ,
     r
   try {
+    //@ts-ignore
     r = (await fn) instanceof Function ? fn() : fn
   } catch (err) {
-    //@ts-ignore
-    e = err.message
+    e = err
   } finally {
-    Toast.clear()
+    closeToast()
     if (e) {
-      Toast.fail({ message: e, duration: 3000 })
-      throw new Error(e)
+      //@ts-ignore
+      showFailToast({ message: e.message, duration: 0 })
+      throw e
     }
   }
   return r
@@ -228,6 +236,14 @@ export function confirm (msg: string) {
   return
 }
 
-export const OrgMap = reactive<{ [index: number]: string }>({})
+export let word = `ABCDEFGHIGKLMNOPQRSTUVWXYZ`;
 
-export const word='ABCDEFGHOJKLMNOPQRSTUVWXYZ'
+export function timeFormat(date: string | number | Date, fmt?: string, msg?:string) {
+  let rs=''
+  if (new Date(date).getFullYear() == 1970) {
+      rs=msg||'未开始'
+  } else {
+      rs=format_date(date,fmt)
+  }
+  return rs
+}

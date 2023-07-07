@@ -115,9 +115,9 @@ import { store } from "@ctsy/common";
 import { useRouter, useRoute } from "vue-router";
 import { ShowMapQuestionType } from "@yakj/sdk/sdk/maps";
 // import get_yan_store from "../store/yan";
-import usePopup from "../hooks/popup";
-import useChange from "../hooks/cut";
-import { useStore } from "../store";
+import usePopup from "./hooks/popup";
+import useChange from "./hooks/cut";
+import { useStore } from "../../store";
 
 const router = useRouter();
 const route = useRoute();

@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { wait, word, timeFormat } from "../api/lib";
+import { wait, word, timeFormat } from "../../../api/lib";
 import { DateFMT } from "@ctsy/common";
 
 const props = defineProps({
