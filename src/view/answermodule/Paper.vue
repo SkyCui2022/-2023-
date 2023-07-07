@@ -712,7 +712,7 @@ onMounted(async () => {
   }
   Time.value = Paper.value.SecondLimit * 60;
   Questions.value = Paper.value.Questions;
-  Questions.value?.map((v) => {
+  Questions.value?.map((v: any) => {
     if (v.Type == 2) {
       v.Items.push(
         Object.assign(new EntityPaperItem(), {
