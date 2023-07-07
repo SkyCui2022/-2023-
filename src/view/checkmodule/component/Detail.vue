@@ -1,28 +1,65 @@
 <template>
-  <van-row v-for="(v, k) in props.ModelValue" :key="k" class="bottom_line block padding_10_15">
-    <van-row justify="space-between" :class="
-      v.Result
-        ? 'bottom_line paddingbottom10 width100 block marginbottom10'
-        : 'block'
-    ">
-
-      <van-col :class="v.Result ? 'red left' : 'left'">
-        <i :class="`iconfont icon-${v.Result ? 'cuowu red' : 'zhengqve green'
-          } font18`"></i> {{ k + 1 }}. {{ v.Name }}
+  <van-row
+    v-for="(v, k) in props.ModelValue"
+    :key="k"
+    class="bottom_line block pt10 pb10 bcf7f9fc"
+  >
+    <van-row
+      justify="space-between"
+      :class="
+        v.Result == 1
+          ? 'bottom_line paddingbottom10 width100 block marginbottom10'
+          : 'block'
+      "
+    >
+      <van-col :class="v.Result == 1 ? 'fcff0000 left' : 'left'">
+        <span class="font14 fontblack">{{ k + 1 }}. {{ v.Name }}</span>
+      </van-col>
+      <van-col>
+        <i
+          :class="`yan5 yan5-${
+            v.Result == 1
+              ? 'jianchabiao-_cuowuxiang red'
+              : 'zhengquexiang green'
+          } font18`"
+        ></i>
       </van-col>
     </van-row>
-    <van-row v-if="v.EMemo && v.Result" class="box_red radius4 red block marginbottom10">
-      <van-field v-model="v.EMemo" autosize type="textarea" disabled></van-field>
+    <van-row
+      v-if="v.EMemo && v.Result == 1"
+      class="box_red radius4 red block marginbottom10"
+    >
+      <van-field
+        v-model="v.EMemo"
+        autosize
+        type="textarea"
+        disabled
+      ></van-field>
     </van-row>
-    <van-row v-if="v.EImgs" justify="space-between" class="block">
+    <van-row
+      v-if="v.EImgs && v.Result == 1"
+      justify="space-between"
+      class="block"
+    >
       <van-col>
         <template v-for="(d, i) in v.EImgs">
-          <van-image :src="d" width="43" height="43" fit="fill" @click="ImagePreview(v.EImgs, i)"
-            class="padding2"></van-image>
+          <van-image
+            :src="d"
+            width="43"
+            height="43"
+            fit="fill"
+            @click="showImagePreview(v.EImgs, i)"
+            class="padding2"
+          ></van-image>
         </template>
       </van-col>
       <van-col span="5" v-if="v.Result">
-        <van-button color="#EFF4FC" size="small" class="rectify" @click="toRectify">
+        <van-button
+          color="#EFF4FC"
+          size="small"
+          class="rectify"
+          @click="toRectify(v)"
+        >
           去整改>
         </van-button>
       </van-col>
@@ -30,20 +67,19 @@
   </van-row>
 </template>
 <script setup lang="ts">
-import { defineProps, defineEmits, withDefaults } from 'vue'
-import { EntitySingleCheckDetailItem } from '@yakj/sdk/sdk/sdk'
-import { ImagePreview } from 'vant'
+import { EntitySingleCheckDetailItem } from "@yakj/sdk/sdk/sdk";
+import { showImagePreview } from "vant";
 interface Props {
-  ModelValue: EntitySingleCheckDetailItem[] | any
+  ModelValue: EntitySingleCheckDetailItem[] | any;
 }
 const props = withDefaults(defineProps<Props>(), {
   ModelValue: () => [],
-})
+});
 
-const emits = defineEmits(['toRectify'])
+const emits = defineEmits(["toRectify"]);
 
-function toRectify() {
-  emits('toRectify')
+function toRectify(v: any) {
+  emits("toRectify", v);
 }
 </script>
 <style scoped lang="less">

@@ -1,33 +1,33 @@
 <template>
   <van-row class="foot">
     <van-row class="block">
-      <van-col @click="show" span="5" class="font14 spacing3">
+      <van-col @click.stop="show" span="5" class="font14 spacing3 blue">
+        <i class="yan5 yan5-anquanpeixuntubiao_timuzhiyin"></i>
+        &nbsp;
         <span class="blue">
-          <i class="iconfont icon-xuanxiang"></i>
+          <i class="yan5 yan-xuanxiang"></i>
           {{ props.Active + 1 }}
         </span>
-        /{{ props.QusetionsLen }}
+        / <span class="font12">{{ props.QusetionsLen }}</span>
       </van-col>
       <van-col
         @click="props.Status ? again() : submit()"
         span="5"
-        :class="`font14  spacing3 ${!props.UnAnswerd ? 'full' : 'gray'}`"
+        class="font15 spacing3 full"
       >
-        <i class="iconfont icon-shijuan"></i>
-        {{ props.Status ? '再考一次' : '交卷' }}
+        {{ props.Status ? "再考一次" : "交卷" }}
       </van-col>
       <van-col span="13">
         <van-row>
           <van-col
             @click="up"
             span="12"
-            class="back_blue_small white font15 up"
+            :class="Active ? 'back_blue white font15 up' : 'gay  font15 up'"
           >
-            <van-icon name="arrow-left" />
-            上一题
+            <span class="f2"><van-icon name="arrow-left" /> 上一题</span>
           </van-col>
           <van-col @click="next" span="12" class="back_blue white font15 next">
-            下一题
+            {{ Type.length || Active + 1 !== QusetionsLen ? "下一题" : "交卷" }}
             <van-icon name="arrow" />
           </van-col>
         </van-row>
@@ -36,14 +36,13 @@
   </van-row>
 </template>
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
-
 interface Props {
-  ModelValue: boolean
-  Active: number
-  QusetionsLen: number
-  Status: number
-  UnAnswerd: number
+  ModelValue: boolean;
+  Active: number;
+  QusetionsLen: number;
+  Status: number;
+  UnAnswerd: number;
+  Type: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -52,24 +51,32 @@ const props = withDefaults(defineProps<Props>(), {
   QuestionsLen: 0,
   Status: 0,
   UnAnswerd: 0,
-})
+  Type: "",
+});
 
-const emits = defineEmits(['show', 'submit', 'next', 'up', 'again'])
+const emits = defineEmits(["show", "submit", "next", "up", "again"]);
 
 function show() {
-  emits('show')
+  emits("show");
 }
 function submit() {
-  emits('submit')
+  emits("submit");
 }
 function next() {
-  emits('next')
+  emits("next");
 }
 function up() {
-  emits('up')
+  emits("up");
 }
 function again() {
-  emits('again')
+  emits("again");
 }
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.gay {
+  background-color: #ccc;
+}
+.f2 {
+  color: #f2f2f2;
+}
+</style>

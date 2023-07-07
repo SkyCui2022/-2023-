@@ -1,18 +1,16 @@
 <template>
   <van-row class="bg">
-    <van-row align="center" class="title">
-      <van-col @click="router.go(-1)" span="2">
-        <van-icon name="arrow-left" size="16" />
-      </van-col>
-      <van-col class="title">{{ Result.Name }}</van-col>
-    </van-row>
+    <van-col span="22" offset="1">
+      <Title :Title="Result.Name" :ShowEnter="false" class="pt20 pb20"></Title>
+    </van-col>
+
     <van-row align="center" justify="space-around" class="block">
       <template v-for="(v, k) in ButtonGroups" :key="k">
         <ButtonGroup :ModelValue="v" @click="click"></ButtonGroup>
       </template>
     </van-row>
     <van-row class="box">
-      <template v-if="Logs">
+      <template v-if="Logs.length">
         <van-row
           v-for="(v, k) in Logs"
           :key="k"
@@ -21,41 +19,47 @@
           justify="space-between"
         >
           <van-col>
-            <van-row class="margin5">
+            <van-row>
               {{ k == 0 ? "上次检查" : "检查人" }}：{{
-                yStore.UserMap[v.CUID].Name || "暂无数据"
+                yStore.UserMap[v.CUID]?.Name || "暂无数据"
               }}
             </van-row>
-            <van-row gutter="20" class="margintop5">
+            <van-row
+              gutter="20"
+              class="margintop5 fontweight"
+              @click="toCheckDetail(v.EID, v.CheckID, v.CLID)"
+            >
               <van-col>{{ v.CTime }}</van-col>
               <van-col v-if="v.Details.length > 0">
-                有隐患{{ v.Details.length }}
+                有隐患{{ v.Details.filter((v) => v.Imgs.length).length }}
               </van-col>
               <van-col class="blue" v-if="v.Details.length > 0">
                 已整改{{ v.Fixed }}
               </van-col>
             </van-row>
           </van-col>
-          <van-col v-if="k == 0" @click="change_height(Logs)">
+          <van-col v-if="k == 0" @click="changeHeight(Logs)">
             {{ Unfold ? "收起" : "更多" }}
             <van-icon :name="Unfold ? 'arrow-up' : 'arrow-down'" />
           </van-col>
         </van-row>
       </template>
-      <template v-else><strong>暂无检查记录</strong></template>
+      <template v-else
+        ><van-col span="24"><strong>暂无检查记录</strong></van-col></template
+      >
     </van-row>
   </van-row>
   <van-row class="list padding15">
     <van-row class="padding_bottom_10 block">
       <van-radio-group v-model="AllRight">
-        <van-radio name="0" @click="all_right">
-          全部符合
+        <van-radio name="0" @click="allRight">
+          <span class="font15">全部符合</span>
           <template #icon="props">
             <i
-              :class="`iconfont icon-${
+              :class="`yan5 yan5-${
                 props.checked
-                  ? 'zhengqve font18 green'
-                  : 'weixuanzhong font16 gray'
+                  ? 'anquanpeixuntubiao_xuanze-yuan font18 green'
+                  : 'weixuanzhong1 font16 gray'
               }`"
             ></i>
           </template>
@@ -64,79 +68,85 @@
     </van-row>
     <van-row class="block">
       <van-row
-        class="block padding10_bottom font13"
+        class="block padding10_bottom"
         v-for="(v, k) in SubmitCheck.Items"
         :key="k"
       >
-        <van-col class="left" span="20">
-          {{ k + 1 }}.{{ mapItem[v.CIID] }}
+        <van-col class="left font black" span="20">
+          <strong class="font14">{{ k + 1 }}.{{ mapItem[v.CIID] }}</strong>
         </van-col>
         <van-col span="4">
           <i
             @click="radio(k, 0)"
-            :class="`iconfont icon-${
-              v.Result == 0 ? 'zhengqve green font18' : 'dui gray font18'
+            :class="`yan5 yan5-${
+              v.Result == 0
+                ? 'anquanpeixuntubiao_xuanze-yuan green font18'
+                : 'anquanpeixuntubiao_xuanze-yuan gray font18'
             }`"
           ></i>
           &nbsp;
           <i
             @click="radio(k, 1)"
-            :class="`iconfont icon-${
-              v.Result == 1 ? 'cuowu red font18' : 'cuo gray font18'
+            :class="`yan5 yan5-${
+              v.Result == 1
+                ? 'jianchabiao-_cuowuxiang red font18'
+                : 'jianchabiao-_cuowuxiang gray font18'
             }`"
           ></i>
         </van-col>
-        <van-row class="block" v-if="v.Result == 1">
+        <van-row
+          class="block"
+          v-if="(ErrLogs[v.CIID] && v.Result == 1) || v.Result == 1"
+        >
           <van-form class="block">
             <van-cell-group>
               <van-field
                 type="textarea"
                 rows="2"
                 v-model="v.Memo"
+                class="border1 mt5"
+                autosize
                 placeholder="请对不符合项进行描述"
               ></van-field>
             </van-cell-group>
           </van-form>
-          <van-row
-            gutter="5"
-            justify="space-between"
-            align="center"
-            class="block"
-          >
-            <van-col class="flex_start">
-              <template v-for="(d, i) in v.Imgs">
-                <van-col class="position">
-                  <van-image
-                    :src="d"
-                    width="43"
-                    height="43"
-                    fit="fill"
-                    @click="
-                      showImagePreview({
-                        images: v.Imgs,
-                        startPosition: i,
-                      })
-                    "
-                  ></van-image>
-                  <van-row
-                    class="clear"
-                    @click="clear(v.Imgs, i)"
-                    v-if="!RectifyList.includes(v.CIID)"
-                  >
-                    <van-icon name="clear" />
-                  </van-row>
-                </van-col>
-              </template>
-              <van-col @click="upload(v.Imgs)">
-                <van-icon name="photograph" size="43" />
+          <van-row align="center" class="block mt10">
+            <template v-for="(d, i) in v.Imgs">
+              <van-col class="position">
+                <van-image
+                  :src="d"
+                  width="50"
+                  height="50"
+                  fit="fill"
+                  @click="
+                    showImagePreview({
+                      images: v.Imgs,
+                      startPosition: i,
+                    })
+                  "
+                ></van-image>
+                <van-row
+                  class="clear"
+                  @click="clear(v.Imgs, i)"
+                  v-if="!RectifyList.includes(v.CIID)"
+                >
+                  <van-icon name="clear" color="#fff" />
+                </van-row>
               </van-col>
+            </template>
+            <van-col @click="upload(v.Imgs)" offset="1">
+              <van-icon
+                name="photograph"
+                class="bcf1f3f6 fcd5d6d8 pl10 pr10 pt10 pb10"
+                size="30"
+              />
             </van-col>
             <van-col v-if="RectifyList.includes(v.CIID)">
               <van-button
                 color="#EFF4FC"
                 size="small"
                 class="rectify"
-                @click="to_rectify"
+                @click="toRectify(v.CIID)"
               >
                 去整改>
               </van-button>
@@ -145,88 +155,202 @@
         </van-row>
       </van-row>
     </van-row>
-    <van-row class="other" @click="to_create_danger">其 他 更 多 ></van-row>
+  </van-row>
+  <van-row class="block" v-if:show="ShowOtherDanger">
+    <van-col class="pl15 pr15 pt15 pb15" span="24">
+      <OtherDangerVue
+        :ModelValue="OtherDanger"
+        @clearOtherimg="clearOtherimg"
+        @addOthterImgs="addOthterImgs"
+        @cancel="ShowOtherDanger = false"
+      ></OtherDangerVue>
+    </van-col>
+  </van-row>
+  <van-row v-if:show="!ShowOtherDanger">
+    <van-col span="22" offset="1" class="left blue" @click="other">
+      <span class="font15"> 其他隐患</span> <van-icon name="arrow"></van-icon>
+    </van-col>
   </van-row>
   <van-row class="enpty"></van-row>
-  <van-row class="submit" @click="submit" align="center" justify="center">
+  <van-row class="submit" @click="submit()" align="center" justify="center">
     <van-button block color="#f2f2f2">
-      <i class="iconfont icon-shouxieqianming"></i>
-      <span>签字提交</span>
+      <i class="yan5 yan5-anquanpeixuntubiao_qianzi font22"></i>
+      &nbsp;
+      <span class="font16"> 签字提交</span>
     </van-button>
   </van-row>
-  <Sign v-model="ShowSign" @success="success" :Name="yStore.User.Name"></Sign>
+  <van-row class="blocks">
+    <Sign
+      :ModelValue="ShowSign"
+      @success="success"
+      @cancel="ShowSign = false"
+      :Name="yStore.User?.Name"
+    ></Sign>
+  </van-row>
 </template>
+
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import {
-  RootApi,
   EntitySubmitCheckLog,
-  CheckID,
   EntityGetCheckRes,
-} from "../../api/check";
-import { Toast, showImagePreview } from "vant";
-import Sign from "../../component/Sign.vue";
+  CheckApi,
+  EntityDanger,
+} from "@yakj/sdk/sdk/sdk";
+import { showFailToast, showImagePreview } from "vant";
+import Sign from "../component/Sign.vue";
 import { store } from "@ctsy/common";
-import get_yan_store from "../../store/yan";
-import ButtonGroup from "./component/ButtonGroup.vue";
-import { wait } from "../../api/lib";
-import useRadio from "./hooks/RadioGroup";
-import useCheckLog from "./hooks/CheckLog";
-import useGroup from "./hooks/ButtonGroup";
-import useImage from "./hooks/Image";
-import useRectify from "./hooks/Rectify";
-import useSign from "./hooks/Sign";
+import ButtonGroup from "../component/ButtonGroup.vue";
+import { wait } from "../api/lib";
+import useRadio from "../hooks/RadioGroup";
+import useCheckLog from "../hooks/CheckLog";
+import useGroup from "../hooks/ButtonGroup";
+import useImage from "../hooks/Image";
+import useRectify from "../hooks/Rectify";
+import useSign from "../hooks/Sign";
+import { cStatus } from "../store/cui";
+import { useStore } from "../store";
+import Upload from "@ctsy/api-sdk/dist/modules/Upload";
+import Title from "../component/Title.vue";
+import OtherDangerVue from "../component/OtherDanger.vue";
 
-const yStore = get_yan_store();
+const yStore = useStore();
 const router = useRouter();
+const route = useRoute();
 const Logs = computed(() => {
   return Result.value.Logs;
 });
-//按钮组
-const { ButtonGroups, click, to_create_danger } = useGroup();
 
-//检查记录逻辑
-const { Unfold, LogHeight, logHeight, change_height } = useCheckLog();
+//按钮组
+const {
+  ButtonGroups,
+  EID,
+  OID,
+  click,
+  toCreateDanger,
+  toCheckLogs,
+  toDangerList,
+} = useGroup();
+
+//检查记录高度计算逻辑
+const { Unfold, LogHeight, logHeight, changeHeight } = useCheckLog();
 
 //全选，单选逻辑
-const { AllRight, SignTextColor, SubmitCheck, all_right, radio } = useRadio();
+const { AllRight, SignTextColor, SubmitCheck, allRight, radio } = useRadio();
 
 // 有隐患的情况下，图片处理
 const { upload, clear } = useImage();
 
 //去整改
-const { RectifyList, to_rectify } = useRectify();
+const { RectifyList, toRectify } = useRectify();
 
 // 提交检查结果逻辑
 function submit() {
   if (SubmitCheck.value.Items.some((v) => v.Result == 999)) {
-    Toast.fail("请按要求检查完整");
+    showFailToast("请按要求检查完整");
   } else if (
     SubmitCheck.value.Items.some((v) => v.Result == 1 && v.Imgs.length == 0)
   ) {
-    Toast.fail("不符合项必须添加图片");
+    showFailToast("不符合项必须添加图片");
   } else if (
     SubmitCheck.value.Items.some((v) => v.Result == 1 && v.Memo == "")
   ) {
-    Toast.fail("不符合项必须添加文本");
+    showFailToast("不符合项必须添加文本");
+  } else if (ShowOtherDanger.value && OtherDanger.value.Name == "") {
+    showFailToast("其他隐患必须填写名称");
+  } else if (ShowOtherDanger.value && OtherDanger.value.Memo == "") {
+    showFailToast("其他隐患必须填写描述");
+  } else if (ShowOtherDanger.value && OtherDanger.value.Imgs.length == 0) {
+    showFailToast("其他隐患必须上传图片");
   } else {
     ShowSign.value = true;
   }
 }
 
+function goList() {
+  router.push(`/check/${EID.value}`);
+}
+
+//其他隐患
+const OtherDanger = ref<EntitySubmitCheckLog>(new EntitySubmitCheckLog());
+function other() {
+  ShowOtherDanger.value = true;
+  OtherDanger.value.Result = 1;
+}
+
 //签字及保存检查结果逻辑
-const { ShowSign, success } = useSign(SubmitCheck.value);
+const { ShowSign, success } = useSign(SubmitCheck.value, OtherDanger.value);
+
+//点击记录列表=》跳转至检查详情
+function toCheckDetail(EID: number, CheckID: number, CLID: number) {
+  router.push(`/check/detail/${EID}/${CheckID}/${CLID}`);
+}
+
+const ShowOtherDanger = ref(false);
+
+async function addOthterImgs() {
+  let rs = await wait(Upload.select_upload("otherImg", "*.png,*.gif,*.jpg"));
+  OtherDanger.value.Imgs.push(rs.url || rs.URL);
+}
+
+function clearOtherimg(k: number) {
+  OtherDanger.value.Imgs.splice(k, 1);
+}
 
 const Result = ref(new EntityGetCheckRes());
 let mapItem: { [index: string]: any } = {};
 const MarginTopList = ref("0px");
 const MarginTop = ref("0px");
+
+let logs: any[] = [];
+const OType = ref("");
+const ErrLogs = ref<{ [index: number]: any }>({});
 onMounted(async () => {
-  Result.value = await wait(RootApi.Check(CheckID), "数据加载中，请稍后");
-  Result.value.Logs.forEach((v) => yStore.getUserInfo(v.CUID));
+  let CheckID = Number(route.params.CheckID);
+  EID.value = Number(route.params.EID);
+  OType.value = String(route.query.OType);
+  OID.value = Number(route.query.OID) || CheckID;
+  store.set("CheckID", CheckID);
+  Result.value = await wait(
+    CheckApi.getByCheckID(CheckID),
+    "数据加载中，请稍后"
+  );
+  Result.value?.Logs.forEach((v) => {
+    yStore.getAccount(v.CUID);
+    logs.push(...v.Details);
+    logs = logs.filter((v) => v.Result == 1);
+  });
+  let obj: { [index: number]: { Memo: string; Imgs: string[] } } = {};
+  logs.map((v) => {
+    if (obj[v.CIID]) {
+      //@ts-ignore
+      obj[v.CIID].Memo.push(v.Memo);
+      obj[v.CIID].Imgs.push(...v.Imgs);
+    } else {
+      obj[v.CIID] = {
+        //@ts-ignore
+        Memo: [v.Memo],
+        Imgs: [...v.Imgs],
+      };
+    }
+  });
+  for (let i in obj) {
+    obj[i].Memo = [...new Set(obj[i].Memo)].join(",");
+    obj[i].Imgs = [...new Set(obj[i].Imgs)];
+  }
+  RectifyList.value = Object.keys(obj);
+  ErrLogs.value = obj;
   store.set("CheckObj", Result.value);
   SubmitCheck.value.CheckID = Result.value.CheckID;
+  if (OType.value && OType.value !== "undefined") {
+    SubmitCheck.value.OType = OType.value;
+    SubmitCheck.value.OID = OID.value;
+  } else {
+    SubmitCheck.value.OType = "Check";
+    SubmitCheck.value.OID = CheckID;
+  }
+  SubmitCheck.value.OID = OID.value || 0;
   for (let i of Result.value.Items) {
     let items = new EntitySubmitCheckLog();
     items.CIID = i.CIID;
@@ -234,47 +358,25 @@ onMounted(async () => {
     SubmitCheck.value.Items.push(items);
     mapItem[`${i.CIID}`] = i.Name;
   }
-  if (Result.value.Logs.length > 0) {
-    for (let i of Result.value.Logs[0].Details) {
-      SubmitCheck.value.Items.forEach((v, k) => {
-        if (v.CIID == i.CIID && i.Result == 1) {
-          v.Imgs = i.Imgs;
-          v.Memo = i.Memo;
-          v.Result = i.Result;
-          RectifyList.value.push(i.CIID);
-        }
-      });
+  SubmitCheck.value.Items.map((v) => {
+    if (obj[v.CIID]) {
+      v.Imgs = obj[v.CIID].Imgs;
+      v.Memo = obj[v.CIID].Memo;
+      v.Result = 1;
     }
-  }
+  });
   setTimeout(() => {
     //@ts-ignore
-    logHeight.value = document.querySelector(".logheight")?.offsetHeight;
+    logHeight.value = document.querySelector(".logheight")?.clientHeight;
     LogHeight.value = `${logHeight.value}px`;
     MarginTop.value = `${logHeight.value / 3}px`;
     MarginTopList.value = `${logHeight.value / 3 + 10}px`;
   }, 200);
+  cStatus.EID = Number(route.params.EID);
+  cStatus.CheckID = Number(route.params.CheckID);
 });
 </script>
 <style scoped lang="less">
-.red {
-  color: red;
-}
-
-.green {
-  color: #32c846;
-}
-
-.flex_dir {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-}
-
-.block {
-  width: 100%;
-}
-
 .left {
   text-align: left;
 }
@@ -289,28 +391,8 @@ onMounted(async () => {
   right: 0;
 }
 
-.font12 {
-  font-size: 12px;
-}
-
-.font16 {
-  font-size: 16px;
-}
-
-.font18 {
-  font-size: 18px;
-}
-
-.white {
-  color: #fff;
-}
-
 .margintop5 {
   margin-top: 5px;
-}
-
-.margintop15 {
-  margin-top: 15px;
 }
 
 .blue {
@@ -327,7 +409,7 @@ onMounted(async () => {
   background-color: #1f7aff;
 
   .title {
-    .white();
+    color: #fff;
     padding: 10px 15px;
     font-size: 1rem;
   }
@@ -358,12 +440,12 @@ onMounted(async () => {
 
 .padding_bottom_10 {
   padding-bottom: 10px;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid #f4f4f4;
 }
 
 .padding10_bottom {
   padding: 10px;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid #f4f4f4;
 }
 
 .other {
@@ -403,8 +485,10 @@ onMounted(async () => {
   align-items: center;
   justify-content: flex-start;
 }
-
-.font13 {
-  font-size: 13px;
+.font25 {
+  font-size: 24px;
+}
+.border1 {
+  border: 1px solid #f6f6f6;
 }
 </style>

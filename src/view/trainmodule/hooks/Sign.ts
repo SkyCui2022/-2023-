@@ -8,10 +8,10 @@ export default function useSign () {
 
   async function success (URL: string) {
     let rs = await wait(
-      TrainsApi.signByTrainID(TrainID, {
-        Sign: URL,
-        TLID: Reslut.value.Mine.LastTLID
-      })
+      TrainsApi.signByTrainID(TrainID, 
+         URL,
+         Reslut.value.Mine.LastTLID
+      )
     )
   }
   function cancel () {

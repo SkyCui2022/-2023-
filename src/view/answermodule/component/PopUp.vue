@@ -7,7 +7,7 @@
     <van-row class="padding_10_0 flexd_top block">
       <van-col @click="show" offset="1" class="spacing3">
         <span class="blue">
-          <i class="iconfont icon-xuanxiang"></i>
+          <i class="yan5 yan5-anquanpeixuntubiao_timuzhiyin"></i>
           <span class="blue">{{ Active + 1 }}</span>
         </span>
         /{{ props.AnswerList.length }}
@@ -17,11 +17,11 @@
         offset="2"
         :class="`${!props.UnAnswerd ? 'full' : 'gray'}`"
       >
-        <i class="iconfont icon-shijuan"></i>
-        {{ props.Status ? '再考一次' : '交卷' }}
+        <i class="yan5 yan-shijuan"></i>
+        {{ props.Status ? "再考一次" : "交卷" }}
       </van-col>
       <van-col @click="show" offset="10">
-        <i class="iconfont icon-xiangxiazhanhang"></i>
+        <i class="yan5 yan5-xiangxiazhanhang"></i>
       </van-col>
     </van-row>
     <van-row class="block padding_10_0">
@@ -40,19 +40,19 @@
   </van-popup>
 </template>
 <script setup lang="ts">
-import { defineEmits, defineProps, onMounted,ref } from 'vue'
-import { store } from '@ctsy/common'
+import { onMounted, ref } from "vue";
+import { store } from "@ctsy/common";
 
-const Err=ref([] as any)
+const Err = ref([] as any);
 
 interface Props {
-  ModelValue: boolean
-  Active: number
-  QusetionsLen: number
-  AnswerList: { [index: string]: any }[]
-  Status: number
-  Flag: number[]
-  UnAnswerd: number
+  ModelValue: boolean;
+  Active: number;
+  QusetionsLen: number;
+  AnswerList: { [index: string]: any }[];
+  Status: number;
+  Flag: number[];
+  UnAnswerd: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -63,25 +63,25 @@ const props = withDefaults(defineProps<Props>(), {
   Status: 0,
   Flag: () => [],
   UnAnswerd: 0,
-})
+});
 
-const emits = defineEmits(['show', 'submit', 'edit_answer', 'again'])
+const emits = defineEmits(["show", "submit", "edit_answer", "again"]);
 function show() {
-  emits('show')
+  emits("show");
 }
 function submit() {
-  emits('submit')
+  emits("submit");
 }
 function edit_answer(n: number) {
-  emits('edit_answer', n)
+  emits("edit_answer", n);
 }
 function again() {
-  emits('again')
+  emits("again");
 }
-onMounted(()=>{
-  if(store.get('err')){
-    Err.value=store.get('err')
+onMounted(() => {
+  if (store.get("err")) {
+    Err.value = store.get("err");
   }
-})
+});
 </script>
 <style scoped lang="less"></style>

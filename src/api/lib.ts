@@ -230,3 +230,4 @@ export function confirm (msg: string) {
 
 export const OrgMap = reactive<{ [index: number]: string }>({})
 
+export const word='ABCDEFGHOJKLMNOPQRSTUVWXYZ'

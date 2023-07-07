@@ -11,36 +11,32 @@
   </van-col>
 </template>
 <script setup lang="ts">
-import { computed, defineComponent, ref, reactive, onMounted, watch } from 'vue'
-import { SearchResult } from '@ctsy/api-sdk'
-import { SearchWhere } from '@ctsy/api-sdk/dist/lib'
-
 interface Props {
   ModelValue: {
     Image: {
-      Width: string
-      Height: string
-      URL: string
-    }
-    Text: string
-  }
+      Width: string;
+      Height: string;
+      URL: string;
+    };
+    Text: string;
+  };
 }
 const props = withDefaults(defineProps<Props>(), {
   ModelValue: () => {
     return {
       Image: {
-        Width: '',
-        Height: '',
-        URL: 'https://f.tansuyun.cn/api/yan/2023-02-01/setdanger.svg',
+        Width: "",
+        Height: "",
+        URL: "https://f.tansuyun.cn/api/yan/2023-02-01/setdanger.svg",
       },
-      Text: '',
-    }
+      Text: "",
+    };
   },
-})
+});
 
-const emits = defineEmits(['click'])
+const emits = defineEmits(["click"]);
 function click() {
-  emits('click', props.ModelValue.Text)
+  emits("click", props.ModelValue.Text);
 }
 </script>
 <style scoped lang="less">

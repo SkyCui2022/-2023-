@@ -1,8 +1,7 @@
 import { ref } from 'vue'
-
 export default function useRectify () {
-  const RectifyList = ref([] as number[])
-  function to_rectify () {
+  const RectifyList = ref<number[]|string[]>([])
+  function toRectify (n:number) {
     //todo 跳转至隐患，函数应该带有ID
     console.log('跳转至隐患详情')
     // router.push({
@@ -12,5 +11,5 @@ export default function useRectify () {
     //   }
     // })
   }
-  return { RectifyList, to_rectify }
+  return { RectifyList, toRectify }
 }

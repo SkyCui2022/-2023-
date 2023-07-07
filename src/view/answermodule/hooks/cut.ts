@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { Toast } from 'vant'
+import { showFailToast } from 'vant'
 import { EntityPaperQuestion } from '@yakj/sdk/sdk/sdk'
 
 export default function useChange () {
@@ -9,15 +9,16 @@ export default function useChange () {
     if (Active.value !== 0) {
       Active.value--
     } else {
-      Toast.fail('已经是第一题')
+      showFailToast('已经是第一题')
     }
   }
-  function next () {
+  function next() {
     if (Active.value !== Questions.value.length - 1) {
       Active.value++
     } else {
-      Toast.fail('已经是最后一题')
+    showFailToast('已经是最后一题')
     }
+    
   }
   return { Active, up, next, Questions }
 }

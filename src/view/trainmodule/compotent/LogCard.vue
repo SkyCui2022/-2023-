@@ -4,10 +4,13 @@
       <van-row class="block" align="center">
         <van-col offset="1">
           {{
-            format_date(props.ModelValue.CTime, DateFMT.YMDHm)
-              ? format_date(props.ModelValue.CTime, DateFMT.YMDHm)
-              : '2023-01-01'
+            timeFormat(ModelValue.LTime, DateFMT.YMDHm)
+              ? timeFormat(ModelValue.LTime, DateFMT.YMDHm)
+              : "2023-01-01"
           }}
+          <span v-if="PaperID" :class="ModelValue.Pass ? 'pass' : 'nopass'">{{
+            ModelValue.Pass ? "合格" : "不合格"
+          }}</span>
         </van-col>
       </van-row>
       <van-row class="block margin_10_0">
@@ -16,8 +19,8 @@
             width="32"
             height="32"
             :src="
-              props.Avatar
-                ? props.Avatar
+              Avatar
+                ? Avatar
                 : 'https://f.tansuyun.cn/api/yan/img/logo-cycle.svg'
             "
             round
@@ -26,14 +29,14 @@
         <van-col offset="1">
           <van-row>
             <span class="blue_small">
-              {{ props.Name }}
+              {{ ModelValue.Name }}
             </span>
-            <i
-              :class="`iconfont icon-${props.Sex ? 'man blue' : 'woman red'}  `"
-            ></i>
+            <i :class="`iconfont icon-${Sex ? 'man blue' : 'woman red'}  `"></i>
           </van-row>
-          <van-row>
-            {{ props.ModelValue.PostID }}-{{ props.ModelValue.UnitID }}
+          <van-row v-if="ModelValue.PostID || ModelValue.UnitID">
+            {{ State.OrgMap[ModelValue.PostID]?.Name
+            }}{{ ModelValue.PostID && ModelValue.UnitID ? "-" : ""
+            }}{{ State.OrgMap[ModelValue.UnitID]?.Name }}
           </van-row>
         </van-col>
       </van-row>
@@ -41,15 +44,15 @@
     <van-col span="5" offset="2">
       <van-row align="bottom">
         <span class="font20">
-          {{ Math.ceil(props.ModelValue.Seconds / 60) }}
+          {{ Math.ceil(ModelValue.Seconds / 60) }}
         </span>
         <van-col>分钟</van-col>
       </van-row>
       <van-row>学习时长</van-row>
     </van-col>
-    <van-col span="5">
+    <van-col span="5" v-if="PaperID">
       <van-row align="bottom">
-        <span class="font20">{{ props.ModelValue.Score }}</span>
+        <span class="font20">{{ ModelValue.Max }}</span>
         <van-col>分</van-col>
       </van-row>
       <van-row>学习成绩</van-row>
@@ -57,22 +60,60 @@
   </van-row>
 </template>
 <script setup lang="ts">
-import { computed, defineEmits, defineProps } from 'vue'
-import { format_date, DateFMT } from '@ctsy/common'
-import { EntityTrainLog } from '@yakj/sdk/sdk/sdk'
+import useBaseData from "../hooks/BaseData";
+import { timeFormat } from "../api/lib";
+import { DateFMT } from "@ctsy/common";
 
+const { State } = useBaseData();
 interface Props {
-  ModelValue: EntityTrainLog
-  Name: string
-  Sex: number
-  Avatar: string
+  ModelValue: {
+    UID: number;
+    Name: string;
+    PostID: number;
+    UnitID: number;
+    Seconds: number;
+    LTime: Date | string;
+    Max: number;
+    Pass: number;
+  };
+  Name: string;
+  Sex: number;
+  Avatar: string;
+  PaperID: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  ModelValue: () => new EntityTrainLog(),
-  Name: '',
+  ModelValue: () => {
+    return {
+      UID: 0,
+      Name: "",
+      PostID: 0,
+      UnitID: 0,
+      Seconds: 0,
+      LTime: "",
+      Max: 0,
+      Pass: 0,
+    };
+  },
+  Name: "",
   Sex: 0,
-  Avatar: 'https://f.tansuyun.cn/api/yan/img/logo-cycle.svg',
-})
+  Avatar: "https://f.tansuyun.cn/api/yan/img/logo-cycle.svg",
+  PaperID: 0,
+});
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.pass {
+  background: #32c846;
+  border-radius: 15px;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+.nopass {
+  background: #f94545;
+  border-radius: 15px;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+</style>
