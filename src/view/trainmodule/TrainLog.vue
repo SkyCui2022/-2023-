@@ -129,7 +129,7 @@ onMounted(async () => {
 </script>
 <style lang="less" scoped>
 .body {
-  height: v-bind(height);
+  min-height: v-bind(height);
   background-color: #f7f9fcff;
 }
 

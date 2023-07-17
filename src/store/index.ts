@@ -2,7 +2,7 @@ import { createPinia, defineStore } from 'pinia'
 import URule, { wait } from '../api/lib'
 // import YUserApi from '@yakj/sdk/dist/User'
 import { array_key_set, delay_cb } from '@ctsy/common'
-import { EntityChangeEnterRes, EntityLoginRes, EntityUserInfoMap, UserApi } from '@yakj/sdk/sdk/sdk'
+import { EntityChangeEnterRes, EntityLoginRes, EntityUserInfoMap,DicsApi, UserApi,OrgsApi,EntityOrgs } from '@yakj/sdk/sdk/sdk'
 // import YOrgApi from '@yakj/sdk/dist/Org'
 
 var Relogin = {
@@ -14,10 +14,14 @@ export const useStore = defineStore('App', {
   state: () => {
     return {
       UserMap: {},
+      OrgMap: {},
+      AccMap:{},
       User: new EntityLoginRes(),
       Enter: new EntityChangeEnterRes
     } as {
+      OrgMap:{[key:number]:EntityOrgs}
       UserMap: { [key: string]: EntityUserInfoMap },
+      AccMap:{[key:number]:string}
       User: EntityLoginRes,
       Enter: EntityChangeEnterRes
     }
@@ -86,10 +90,23 @@ export const useStore = defineStore('App', {
         this.User = rs
         if (EID > 0) {
           this.Enter = rs.Enter
+          this.OrgMap = array_key_set(rs.Enter.Orgs, 'OrgID')
         }
       }
       Relogin.Time = Date.now()
       return this.User
+    },
+
+    async getOrg(EID: number) {
+      // let rs: EntityOrgs[] = (await OrgsApi.tree(0, EID)).L
+      // rs.forEach(v => {
+      //   this.OrgMap[v.OrgID]=v
+      // })
+    },
+
+    async getAcc() {
+      let rs = (await DicsApi.search({ W: { PDID: 446 }, P: 1, N: 999 } as any)).L
+      this.AccMap=array_key_set(rs,'DID')
     }
   }
 })

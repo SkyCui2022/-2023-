@@ -2,7 +2,7 @@
   <van-sticky>
     <van-row class="bg">
       <van-col span="22" offset="1">
-        <Title class="mt20 mb20" Title="隐患台账"></Title>
+        <Title class="mt20 mb20" Title="隐患台账" @go="router.go(-1)"></Title>
         <Search
           :KeyWord="KeyWord"
           Placeholder="隐患关键字"
@@ -91,7 +91,7 @@ import { useStore } from "../../store";
 import DangerList from "../../component/DangerList.vue";
 import { cCondition } from "../../api/lib";
 import ConditionSelect from "../../component/ConditionSelect.vue";
-import useDate from "../../hooks/Date";
+import useDate from "./hooks/Date";
 import { cloneDeep } from "lodash";
 import Title from "../../component/Title.vue";
 import Search from "../../component/Search.vue";
@@ -452,7 +452,7 @@ onMounted(async () => {
 }
 .body {
   background: #f7f9fc;
-  height: v-bind(Height);
+  min-height: v-bind(Height);
 }
 :deep.pop {
   > .margin_15_0 {

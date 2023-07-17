@@ -60,7 +60,7 @@
 <script lang="ts" setup>
 import { onMounted, onBeforeUpdate } from "vue";
 import { ref } from "vue";
-import { iCondition, cCondition } from "../api/lib";
+import { iCondition, cCondition } from "../../../api/lib";
 import { cloneDeep } from "lodash";
 import type { CheckboxInstance } from "vant";
 

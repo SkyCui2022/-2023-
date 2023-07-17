@@ -182,7 +182,7 @@ onMounted(async () => {
 </script>
 <style lang="less" scoped>
 .body {
-  height: v-bind(Height);
+  min-height: v-bind(Height);
   background-color: #f7f9fcff;
 }
 .van-button {

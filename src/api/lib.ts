@@ -247,3 +247,26 @@ export function timeFormat(date: string | number | Date, fmt?: string, msg?:stri
   }
   return rs
 }
+export class OtherDanger{
+  Name: string = ''
+  Memo: string = ''
+  Imgs:string[]=[]
+}
+export enum EOType{
+  'Danger' = '上报',
+  'Risk' = '风险点',
+  'Check' = '检查表',
+  'Post'='岗位'
+}
+export class cCondition{
+  Name=''
+  Key=''
+  Value: number | string | any=0;
+  List: Array<{ Name: string; Value: number|string }>=[];
+}
+export interface iCondition {
+  Name: string;
+  Key: string;
+  Value: number | string | any;
+  List: Array<{ Name: string; Value: number|string }>;
+}

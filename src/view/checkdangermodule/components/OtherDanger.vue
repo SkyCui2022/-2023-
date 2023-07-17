@@ -94,7 +94,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { OtherDanger } from "../api/lib";
+import { OtherDanger } from "../../../api/lib";
 import { showImagePreview } from "vant";
 
 const props = defineProps({

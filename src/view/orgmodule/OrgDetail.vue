@@ -74,7 +74,7 @@ onMounted(async () => {
 }
 
 .bg {
-  height: v-bind(BG);
+  min-height: v-bind(BG);
   background: #f7f9fc;
 }
 </style>

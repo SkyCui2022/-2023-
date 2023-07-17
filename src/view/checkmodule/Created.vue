@@ -1,7 +1,12 @@
 <template>
   <van-row class="bg">
     <van-col span="22" offset="1">
-      <Title :Title="Result.Name" :ShowEnter="false" class="pt20 pb20"></Title>
+      <Title
+        @go="router.go(-1)"
+        :Title="Result.Name"
+        :ShowEnter="false"
+        class="pt20 pb20"
+      ></Title>
     </van-col>
 
     <van-row align="center" justify="space-around" class="block">
@@ -421,7 +426,7 @@ onMounted(async () => {
     margin: 0 auto;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     font-size: 12px;
-    height: v-bind(LogHeight);
+    min-height: v-bind(LogHeight);
     max-height: 350px;
     margin-top: v-bind(MarginTop);
     overflow: auto;

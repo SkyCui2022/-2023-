@@ -3,7 +3,7 @@
     <van-row justify="space-between" class="block margin20">
       <van-col>
         <i
-          @click="$router.go(-1)"
+          @click="router.go(-1)"
           class="yan5 yan5-anquanpeixuntubiao_fanhui font16"
         ></i>
         &nbsp;

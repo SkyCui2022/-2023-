@@ -467,14 +467,14 @@ function begin_answer() {
     new Date(Paper.value.ETime).getTime()
   ) {
     showDialog({
-      message: `因临近截至时间(${timeFormat(
+      message: `因临近截止时间(${timeFormat(
         Paper.value.ETime,
         DateFMT.YMDHm
       )})，答题时长时长不足${Math.ceil(
         (new Date(Paper.value.ETime).getTime() - new Date().getTime()) / 60000
       )}分钟`,
       confirmButtonText: "开始考试",
-      cancelButtonText: "我在想想",
+      cancelButtonText: "我再想想",
     })
       .then(() => {
         Time.value = Math.floor(
@@ -601,7 +601,7 @@ async function see_again() {
  * 再考一次
  */
 function answer_agian() {
-  router.go(0);
+  location.reload();
 }
 
 /**
